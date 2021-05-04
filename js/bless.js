@@ -350,6 +350,7 @@ let page3 = {
       })
     });
     resp = await resp.json();
+    console.log(resp);
     return resp.data;
   },
   // 弹出分享区域
@@ -420,16 +421,21 @@ page3.init();
 
 async function init () {
   // 显示默认的祝福信息
-  showLoading();
-  // 1.获取远程数据
-  // (`https://bless.yuanjin.tech/api/bless?id=${location.search.replace('?', '')}`)
-  // 'https://bless.yuanjin.tech/api/bless?id=5fe70be490eb6c3c4e8d2128'
-  let resp = await fetch(`https://bless.yuanjin.tech/api/bless?id=${location.search.replace('?', '')}`);
+  showLoading(); // 加载中
+  // 1. 获取远程数据
+  var resp = await fetch(
+    `https://bless.yuanjin.tech/api/bless?id=${location.search.replace(
+      "?",
+      ""
+    )}`
+  );
   resp = await resp.json();
   resp = resp.data;
+
   hideLoading();
+
   if (resp) {
-    // 设置默认数据
+    // 设置默认
     page1.doms.txtAuthor.value = resp.author;
     page1.doms.txtContent.innerText = resp.content;
     page3.setBgMusic(resp.bgMusicIndex);

@@ -61,7 +61,7 @@ let curPageIndex = 0;
   // 1.获取远程数据
   // (`https://bless.yuanjin.tech/api/bless?id=${location.search.replace('?', '')}`)
   // 'https://bless.yuanjin.tech/api/bless?id=5fe70be490eb6c3c4e8d2128'
-  let resp = await fetch('https://bless.yuanjin.tech/api/bless?id=60915a8590eb6c3c4e8d263a');
+  let resp = await fetch('https://bless.yuanjin.tech/api/bless?id=6091728890eb6c3c4e8d264a');
   resp = await resp.json();
   resp = resp.data;
   console.log(resp);
@@ -248,7 +248,7 @@ let curPageIndex = 0;
       // 音乐正在播放
       $('.music').classList.remove('music-close');
     }
-    if (resp.audioUrl) {
+    if (!resp.audioUrl) {
       return;
     }
     // 设置磁带状态
