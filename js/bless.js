@@ -326,100 +326,99 @@ let page3 = {
     this.doms.audBg.src = `../assets/media/${index}.mp3`;
   },
   // 播放背景音乐
-  play () {
+  play: function () {
     this.doms.audBg.play();
   },
   // 停止播放背景音乐
-  stop () {
+  stop: function () {
     this.doms.audBg.pause();
   },
   // 收集全部页面的数据，提交到服务器
-  async submit () {
-    let resp = await fetch("https://bless.yuanjin.tech/api/bless", {
+  submit: async function () {
+    var resp = await fetch("https://bless.yuanjin.tech/api/bless", {
       // 请求配置，固定写法，学了 http 协议后自然懂
-      method:"POST", 
+      method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        // 在这里写服务器要求的数据格式
         author: page1.doms.txtAuthor.value,
         content: page1.doms.txtContent.innerText,
         audioUrl: page2.sound.audioUrl,
-        bgMusicIndex: page3.currentBgMusicIndex // 背景音乐的索引
-      })
+        bgMusicIndex: page3.currentBgMusicIndex, // 背景音乐的索引
+      }),
     });
     resp = await resp.json();
-    console.log(resp);
     return resp.data;
   },
   // 弹出分享区域
- async showShareArea () {
+  showShareArea: async function () {
     showLoading();
-    let divModal = $$$('div');
-    divModal.className = 'g-modal';
-    let resp = await this.submit();
-    let url = `${location.origin}/?${resp._id}`;
-    let imgScr = await utils.share.createImg('../assets/cover-bg.jpg', url, resp.author);
-    divModal.innerHTML = `
-    <div class="g-modal">
-      <div class="share-container">
-        <img src="${imgScr}" alt="" />
-        <div class="g-btn" data-default='true'>复制分享图片</div>
-      </div>
-    </div>
-    `;
+    var divModal = $$$("div");
+    divModal.className = "g-modal";
+    var resp = await this.submit();
+    var url = `${location.origin}/?${resp._id}`;
+
+    var imgSrc = await utils.share.createImg(
+      "./assets/cover-bg.jpg",
+      url,
+      resp.author
+    );
+    divModal.innerHTML = `<div class="share-container">
+    <img src="${imgSrc}" alt="">
+    <div class="g-btn" data-default="true">复制分享图片</div>
+  </div>`;
     document.body.appendChild(divModal);
-    divModal.querySelector('.g-btn').onclick = function () {
+    divModal.querySelector(".g-btn").onclick = function () {
       page3.copyShareImage();
-    }
+    };
     hideLoading();
   },
   // 复制分享图片
-  async copyShareImage () {
+  copyShareImage: async function () {
     try {
-      let imgDom = $('.share-container img');
+      var imgDom = $(".share-container img");
       await utils.share.copyImage(imgDom);
-      alert('复制图片成功\n赶紧去分享给你的小伙伴吧');
+      alert("复制图片成功\n你可以把图片粘贴给你的小伙伴");
     } catch {
-      console.log('宁的手机不支持复制,请自行截图');
+      alert("由于浏览器的限制，无法完成图片复制，请自行截图");
     }
   },
-  // 初始化第3页
-  init () {
-    this.setBgMusic(2);
+  init: function () {
+    this.setBgMusic(0);
     // 1. 上一曲事件
     this.doms.musicPrev.onclick = function () {
-      let newIndex = page3.currentBgMusicIndex - 1;
+      var newIndex = page3.currentBgMusicIndex - 1;
       if (newIndex < 0) {
         newIndex = page3.bgMusicNames.length - 1;
       }
       page3.setBgMusic(newIndex);
       page3.play();
-    }
+    };
     // 2. 下一曲事件
     this.doms.musicNext.onclick = function () {
-      let newIndex = page3.currentBgMusicIndex + 1;
+      var newIndex = page3.currentBgMusicIndex + 1;
       if (newIndex > page3.bgMusicNames.length - 1) {
         newIndex = 0;
       }
       page3.setBgMusic(newIndex);
       page3.play();
-    }
+    };
     // 3. 上一步按钮事件
     this.doms.btnPrev.onclick = function () {
       toPage(1);
       page3.stop();
-    }
+    };
     // 4. 完成并分享按钮事件
     this.doms.btnFinish.onclick = function () {
       page3.showShareArea();
-    }
-  }
-}
+    };
+  },
+};
+
 page3.init();
 
-async function init () {
+async function init() {
   // 显示默认的祝福信息
   showLoading(); // 加载中
   // 1. 获取远程数据
