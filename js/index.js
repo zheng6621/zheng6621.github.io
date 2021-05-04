@@ -61,7 +61,8 @@ let curPageIndex = 0;
   // 1.获取远程数据
   // (`https://bless.yuanjin.tech/api/bless?id=${location.search.replace('?', '')}`)
   // 'https://bless.yuanjin.tech/api/bless?id=5fe70be490eb6c3c4e8d2128'
-  let resp = await fetch('https://bless.yuanjin.tech/api/bless?id=6091728890eb6c3c4e8d264a');
+  // ('https://bless.yuanjin.tech/api/bless?id=60917d3690eb6c3c4e8d2657');
+  let resp = await fetch('https://bless.yuanjin.tech/api/bless?id=60917d3690eb6c3c4e8d2657');
   resp = await resp.json();
   resp = resp.data;
   console.log(resp);
