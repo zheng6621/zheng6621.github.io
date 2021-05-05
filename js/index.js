@@ -55,49 +55,61 @@ let curPageIndex = 0;
   }
 }());
 
+
+
 (async function () {
-  // 获取前显示loading
-  showLoading();
-  // 1.获取远程数据
-  // (`https://bless.yuanjin.tech/api/bless?id=${location.search.replace('?', '')}`)
-  // 'https://bless.yuanjin.tech/api/bless?id=5fe70be490eb6c3c4e8d2128'
-  // ('https://bless.yuanjin.tech/api/bless?id=60917d3690eb6c3c4e8d2657');
-  let resp = await fetch('https://bless.yuanjin.tech/api/bless?id=60917d3690eb6c3c4e8d2657');
+  showLoading(); // 加载中
+  // 1. 获取远程数据
+  var resp = await fetch(
+    `https://bless.yuanjin.tech/api/bless?id=${location.search.replace(
+      "?",
+      ""
+    )}`
+  );
   resp = await resp.json();
   resp = resp.data;
-  console.log(resp);
-
+  let data = {
+    _id: "60917d3690eb6c3c4e8d2657", 
+    author: "李文正", 
+    content: "祝：前程似锦", 
+    audioUrl: "https://li-newyear.oss-cn-beijing.aliyuncs.com/08f8eb5a9a76345b9b436d2b62f165f4.mp3",
+    bgMusicIndex: 2
+  }
+  if (!resp) {
+    resp = data;
+  }
   // 2. 根据远程数据，设置页面中的各种区域
   (function () {
-    // 第一页的数据
-    $('.page1 .g-btn').innerText = `来自「${resp.author}」的祝福`;
-    // 第二页的数据
-    let pre = $('.page2 .note pre');
+    console.log(resp);
+    // 第一页
+    $(".page1 .g-btn").innerText = `来自「${resp.author}」的祝福`;
+    // 第二页
+    var pre = $(".page2 .note pre");
     pre.innerText = resp.content;
-    // 看一下内容部分是否有滚动条
-    // pre.clientHeight内容区可见高度, pre.scrollHeight内容实际高度
-    if (pre.clientHeight != pre.scrollHeight) {
+    // 看一下，内容部分是否有滚动条
+    if (pre.clientHeight !== pre.scrollHeight) {
       // 有滚动条
-      // 不阻止默认行为
+      // 不能阻止默认行为
       pre.dataset.default = true;
       // 阻止事件冒泡
       pre.ontouchstart = function (e) {
         e.stopPropagation();
-      }
+      };
     }
-    // 判断是否有录音
+    // 看一下，有没有录音
     if (resp.audioUrl) {
       // 设置音频
-      $('#soundAudio').src = resp.audioUrl;
+      $("#soundAudio").src = resp.audioUrl;
     } else {
       // 没有录音
-      $('.page2 .g-tape').remove();
-      $('.page2 .g-btn').remove();
-      $('.page2 .note').style.top = '1rem';
+      $(".page2 .g-tape").remove();
+      $(".page2 .g-btn").remove();
+      $(".page2 .note").style.top = "1rem";
     }
     // 设置背景音乐的音频
-    $('#bgMusicAudio').src = `../assets/media/${resp.bgMusicIndex}.mp3`;
-  } ());
+    $("#bgMusicAudio").src = `./assets/media/${resp.bgMusicIndex}.mp3`;
+  })();
+
 
   // 3. 实现摇一摇
   (function () {
@@ -298,12 +310,12 @@ let curPageIndex = 0;
       $('.page2 .g-btn').innerText = '重新播放';
     }
   }
-  // 获取后清除loading
 
-  // 我也要送祝福事件
-  $('.page3 .g-btn').onclick = function () {
+  // 我也要送祝福 事件
+  $(".page3 .g-btn").onclick = function () {
     // 跳转页面
-    location.href = `bless.html?${location.search.replace('?', '')}`;
-  }
-  hideLoading();
+    location.href = `bless.html?${location.search.replace("?", "")}`;
+  };
+
+  hideLoading(); // 关闭加载
 } ());

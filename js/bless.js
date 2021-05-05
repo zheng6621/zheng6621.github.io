@@ -423,17 +423,22 @@ async function init() {
   // 显示默认的祝福信息
   showLoading(); // 加载中
   // 1. 获取远程数据
-  var resp = await fetch(
-    `https://bless.yuanjin.tech/api/bless?id=${location.search.replace(
-      "?",
-      ""
-    )}`
+  let resp = await fetch(
+    `https://bless.yuanjin.tech/api/bless?id=${location.search.replace("?","")}`
   );
   resp = await resp.json();
   resp = resp.data;
-
+  let data = {
+    _id: "60917d3690eb6c3c4e8d2657", 
+    author: "李文正", 
+    content: "祝：前程似锦", 
+    audioUrl: "https://li-newyear.oss-cn-beijing.aliyuncs.com/08f8eb5a9a76345b9b436d2b62f165f4.mp3",
+    bgMusicIndex: 2
+  }
+  if (!resp) {
+    resp = data;
+  }
   hideLoading();
-
   if (resp) {
     // 设置默认
     page1.doms.txtAuthor.value = resp.author;
