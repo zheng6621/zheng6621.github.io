@@ -73,7 +73,7 @@ let curPageIndex = 0;
     author: "李文正", 
     content: "祝：前程似锦", 
     audioUrl: "https://li-newyear.oss-cn-beijing.aliyuncs.com/08f8eb5a9a76345b9b436d2b62f165f4.mp3",
-    bgMusicIndex: 2
+    bgMusicIndex: 0
   }
   if (!resp) {
     resp = data;
