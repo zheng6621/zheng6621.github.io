@@ -80,7 +80,6 @@ let curPageIndex = 0;
   }
   // 2. 根据远程数据，设置页面中的各种区域
   (function () {
-    console.log(resp);
     // 第一页
     $(".page1 .g-btn").innerText = `来自「${resp.author}」的祝福`;
     // 第二页
@@ -136,7 +135,6 @@ let curPageIndex = 0;
     };
     window.addEventListener('shaken', function () {
       showBlessCard();
-      console.log('woyaole');
     })
 
     // 弹出祝福卡片
