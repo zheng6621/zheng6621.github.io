@@ -349,7 +349,6 @@ let page3 = {
       }),
     });
     resp = await resp.json();
-    console.log(resp);
     return resp.data;
   },
   // 弹出分享区域
